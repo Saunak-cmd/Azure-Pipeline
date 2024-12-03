@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: python-app
-        image: vishwa28nov24.azurecr.io/pythonapp-env:v1
+        image: saunak.azurecr.io/pythonapp-env:v1
         ports:
         - containerPort: 5010
         env:
