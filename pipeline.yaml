@@ -47,7 +47,7 @@ stages:
     - task: AzureCLI@2
       displayName: "Download AKS kubeconfig"
       inputs:
-        azureSubscription: "kubesaunak"
+        azureSubscription: "DockerRegistrysaunak"
         scriptType: bash
         scriptLocation: inlineScript
         inlineScript: |
