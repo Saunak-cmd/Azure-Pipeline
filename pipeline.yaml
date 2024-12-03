@@ -73,11 +73,11 @@ stages:
       inputs:
         action: 'deploy'
         connectionType: 'azureResourceManager'
-        azureSubscriptionConnection: 'kubesaunak'
+        azureSubscriptionConnection: 'connectionsaunak'
         azureResourceGroup: 'RG-saunak'
         kubernetesCluster: 'myakscluster-saunak'
         useClusterAdmin: true
-        manifests: '$(System.DefaultWorkingDirectory)/manifestsnew/*'
+        manifests: '$(System.DefaultWorkingDirectory)/manifests/*'
     
     # Script to verify deployment
     - script: |
