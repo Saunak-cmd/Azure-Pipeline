@@ -22,6 +22,7 @@ stages:
  
 - stage: BuildAndPush
   displayName: Build and Push stage
+  dependsOn: GitClone
   jobs:
   - job: BuildAndPush
     displayName: Build and Push Docker Image
@@ -33,3 +34,58 @@ stages:
         repository: 'python-app'
         command: 'buildAndPush'
         Dockerfile: '**/Dockerfile'
+ 
+# Stage 2: Deploy AKS Cluster
+- stage: Deploy_AKS
+  dependsOn: BuildAndPush  # Ensure Terraform stage is complete
+  displayName: "Deploy AKS and Configure Kubeconfig"
+  jobs:
+  - job: DeployAKS
+    displayName: "Deploy AKS and Download Kubeconfig"
+    steps:
+    # Azure CLI task to download kubeconfig
+    - task: AzureCLI@2
+      displayName: "Download AKS kubeconfig"
+      inputs:
+        azureSubscription: "kubesaunak"
+        scriptType: bash
+        scriptLocation: inlineScript
+        inlineScript: |
+          # Variables for AKS setup
+          RESOURCE_GROUP="RG-saunak"
+          CLUSTER_NAME="myakscluster-saunak"
+ 
+          # Download kubeconfig
+          az aks get-credentials --resource-group $RESOURCE_GROUP --name $CLUSTER_NAME --overwrite-existing
+          echo "Kubeconfig downloaded successfully"
+ 
+# Stage 3: Kubernetes Deployment
+- stage: KubernetesDeployment
+  displayName: "Deploy to Kubernetes Cluster"
+  dependsOn: Deploy_AKS
+  jobs:
+  - job: DeployToAKS
+    displayName: "Deploy to AKS Cluster"
+    steps:
+    # Apply Kubernetes manifests
+    - task: KubernetesManifest@1
+      displayName: "Apply Kubernetes Manifests"
+      inputs:
+        action: 'deploy'
+        connectionType: 'azureResourceManager'
+        azureSubscriptionConnection: 'kubesaunak'
+        azureResourceGroup: 'RG-saunak'
+        kubernetesCluster: 'myakscluster-saunak'
+        useClusterAdmin: true
+        manifests: '$(System.DefaultWorkingDirectory)/manifestsnew/*'
+    
+    # Script to verify deployment
+    - script: |
+        echo "Checking Kubernetes pod status..."
+        kubectl get pods,svc
+        echo "Fetching External IP of the Nginx Service..."
+        EXTERNAL_IP=$(kubectl get svc nginx-service -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+        echo "External IP of Nginx service is: $EXTERNAL_IP"
+        echo "Testing external service (Nginx) with curl..."
+        curl -s http://$EXTERNAL_IP
+      displayName: "Verify Kubernetes Service Deployment"
