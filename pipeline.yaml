@@ -16,7 +16,7 @@ stages:
         - checkout: self
           displayName: "Checkout Source Code"
 
-# Stage 2: Build and Push Docker Image
+## Stage 2: Build and Push Docker Image
 - stage: BuildAndPush
   displayName: Build and Push stage
   dependsOn: GitClone
