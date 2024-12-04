@@ -98,5 +98,4 @@ stages:
             azureResourceGroup: 'RG-saunak'
             kubernetesCluster: 'myakscluster-saunak'
             useClusterAdmin: true
-            manifests: |
-              $(System.DefaultWorkingDirectory)/manifests
+            arguments: '-f $(System.DefaultWorkingDirectory)/manifests/*.yaml'
