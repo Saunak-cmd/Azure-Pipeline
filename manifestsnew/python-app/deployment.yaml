@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
       - name: python-app
-        image: 
+        image: saunak021224.azurecr.io/python-app:$(Build.BuildId)
         ports:
         - containerPort: 5010
         env:
