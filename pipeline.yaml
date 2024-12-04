@@ -52,6 +52,8 @@ stages:
             kubernetesCluster: 'myakscluster-saunak'
             useClusterAdmin: true
             manifests: '$(System.DefaultWorkingDirectory)/manifests/*.yaml'
+            containers: |
+                saunak021224.azurecr.io/python-app:$(Build.BuildId)
 
         # Script to verify deployment
         - script: |
