@@ -66,37 +66,39 @@ stages:
             curl -s http://$EXTERNAL_IP || echo "Service not responding, verify deployment."
           displayName: "Verify Kubernetes Deployment"
 
-# Stage 4: Approval Stage
-- stage: ApprovalStage
-  displayName: "Approval Stage"
-  dependsOn: KubernetesDeployment
-  jobs:
-    - deployment: ManualApproval
-      displayName: "Approval for deleting Deployment and service"
-      environment: DeleteDeploymentAndService
-      strategy:
-        runOnce:
-          deploy:
-            steps:
-              - script: |
-                  echo "Deleting the deployment and service"
-                displayName: "Approval Confirmed"
+# # Stage 4: Approval Stage
+# - stage: ApprovalStage
+#   displayName: "Approval Stage"
+#   dependsOn: KubernetesDeployment
+#   jobs:
+#     - deployment: ManualApproval
+#       displayName: "Approval for deleting Deployment and service"
+#       environment: DeleteDeploymentAndService
+#       strategy:
+#         runOnce:
+#           deploy:
+#             steps:
+#               - script: |
+#                   echo "Deleting the deployment and service"
+#                 displayName: "Approval Confirmed"
 
-# Stage 5: Delete Kubernetes Deployment and Service
-- stage: DeleteDeploymentAndService
-  displayName: "Delete Kubernetes Deployment and Service"
-  dependsOn: ApprovalStage
-  jobs:
-    - job: DeleteResources
-      displayName: "Delete Deployment and Service from AKS"
-      steps:
-        - task: KubernetesManifest@1
-          displayName: "Delete Kubernetes Deployment and Service"
-          inputs:
-            action: 'delete'
-            connectionType: 'azureResourceManager'
-            azureSubscriptionConnection: 'connectionsaunak'
-            azureResourceGroup: 'RG-saunak'
-            kubernetesCluster: 'myakscluster-saunak'
-            useClusterAdmin: true
-            arguments: '-f $(System.DefaultWorkingDirectory)/manifests/*.yaml'
+# # Stage 5: Delete Kubernetes Deployment and Service
+# - stage: DeleteDeploymentAndService
+#   displayName: "Delete Kubernetes Deployment and Service"
+#   dependsOn: ApprovalStage
+#   jobs:
+#     - job: DeleteResources
+#       displayName: "Delete Deployment and Service from AKS"
+#       steps:
+#         - task: KubernetesManifest@1
+#           displayName: "Delete Kubernetes Deployment and Service"
+#           inputs:
+#             action: 'delete'
+#             connectionType: 'azureResourceManager'
+#             azureSubscriptionConnection: 'connectionsaunak'
+#             azureResourceGroup: 'RG-saunak'
+#             kubernetesCluster: 'myakscluster-saunak'
+#             useClusterAdmin: true
+#             arguments: '-f $(System.DefaultWorkingDirectory)/manifests/*.yaml'
+
+
