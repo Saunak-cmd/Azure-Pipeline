@@ -4,4 +4,4 @@ metadata:
   name: app-config
   namespace: dev
 data:
-  REDIS_HOST: redis-ser
+  REDIS_HOST: redis-service-saunak
