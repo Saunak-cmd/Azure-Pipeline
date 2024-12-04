@@ -6,7 +6,7 @@ pool:
   name: "poolcapstone"
 
 stages:
-# Stage 1: Git Clone
+## Stage 1: Git Clone
 - stage: GitClone
   displayName: "Clone Repository"
   jobs:
