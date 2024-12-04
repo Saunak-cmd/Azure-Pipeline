@@ -31,9 +31,7 @@ stages:
             repository: 'python-app'
             command: 'buildAndPush'
             Dockerfile: '**/Dockerfile'
-            tags: |
-              $(Build.BuildId)
-              latest
+            tags: '$(Build.BuildId)'
 
 # Stage 3: Kubernetes Deployment
 - stage: KubernetesDeployment
