@@ -34,6 +34,9 @@ stages:
         repository: 'python-app'
         command: 'buildAndPush'
         Dockerfile: '**/Dockerfile'
+        tags: |
+          $(Build.BuildId)
+          latest
  
 # Stage 2: Deploy AKS Cluster
 - stage: Deploy_AKS
