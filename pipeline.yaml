@@ -39,7 +39,7 @@ stages:
           latest
  
  
-# Stage 3: Kubernetes Deployment
+# Stage 2: Kubernetes Deployment
 - stage: KubernetesDeployment
   displayName: "Deploy to Kubernetes Cluster"
   dependsOn: Deploy_AKS
