@@ -38,29 +38,6 @@ stages:
           $(Build.BuildId)
           latest
  
-# Stage 2: Deploy AKS Cluster
-- stage: Deploy_AKS
-  dependsOn: BuildAndPush  # Ensure Terraform stage is complete
-  displayName: "Deploy AKS and Configure Kubeconfig"
-  jobs:
-  - job: DeployAKS
-    displayName: "Deploy AKS and Download Kubeconfig"
-    steps:
-    # Azure CLI task to download kubeconfig
-    - task: AzureCLI@2
-      displayName: "Download AKS kubeconfig"
-      inputs:
-        azureSubscription: "connectionsaunak"
-        scriptType: bash
-        scriptLocation: inlineScript
-        inlineScript: |
-          # Variables for AKS setup
-          RESOURCE_GROUP="RG-saunak"
-          CLUSTER_NAME="myakscluster-saunak"
- 
-          # Download kubeconfig
-          az aks get-credentials --resource-group $RESOURCE_GROUP --name $CLUSTER_NAME --overwrite-existing
-          echo "Kubeconfig downloaded successfully"
  
 # Stage 3: Kubernetes Deployment
 - stage: KubernetesDeployment
