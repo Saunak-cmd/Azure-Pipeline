@@ -72,7 +72,7 @@ stages:
       displayName: "Apply Kubernetes Manifests"
       inputs:
         action: 'deploy'
-        connectionType: 'kubesaunak'
+        connectionType: 'azureResourceManager'
         azureSubscriptionConnection: 'connectionsaunak'
         azureResourceGroup: 'RG-saunak'
         kubernetesCluster: 'myakscluster-saunak'
