@@ -66,7 +66,7 @@ stages:
           inputs:
             action: 'deploy'
             connectionType: 'azureResourceManager'
-            azureSubscriptionConnection: 'connectionsaunak'
+            azureSubscriptionConnection: 'finalconnection'
             azureResourceGroup: 'RG-saunak'
             kubernetesCluster: 'myakscluster-saunak'
             useClusterAdmin: true
