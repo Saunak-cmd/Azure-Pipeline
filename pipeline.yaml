@@ -74,7 +74,7 @@ stages:
             manifests: |
               $(System.DefaultWorkingDirectory)/manifests/python-app/*.yaml
               $(System.DefaultWorkingDirectory)/manifests/redis/*.yaml
-            containers: 'saunak021224.azurecr.io/python-app:$(Build.BuildId)'
+            containers: 'saunak051224.azurecr.io/python-app:$(Build.BuildId)'
 
         # Script to verify deployment
         - script: |
