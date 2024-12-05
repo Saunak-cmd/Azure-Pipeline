@@ -51,9 +51,25 @@ stages:
             azureResourceGroup: 'RG-saunak'
             kubernetesCluster: 'myakscluster-saunak'
             useClusterAdmin: true
-            manifests: '$(System.DefaultWorkingDirectory)/manifests/*.yaml'
-            containers: |
-                saunak021224.azurecr.io/python-app:$(Build.BuildId)
+            manifests: |
+                $(System.DefaultWorkingDirectory)/manifests/namespace/namespace-$(namespace).yaml
+            # containers: |
+            #     saunak021224.azurecr.io/python-app:$(Build.BuildId)
+
+        - task: KubernetesManifest@1
+          displayName: Apply Kubernetes Manifests
+          inputs:
+            action: 'deploy'
+            connectionType: 'azureResourceManager'
+            azureSubscriptionConnection: 'connectionsaunak'
+            azureResourceGroup: 'RG-saunak'
+            kubernetesCluster: 'myakscluster-saunak'
+            useClusterAdmin: true
+            namespace: '$(namespace)'
+            manifests: |
+                $(System.DefaultWorkingDirectory)/manifests/python-app/*.yaml
+                $(System.DefaultWorkingDirectory)/manifests/redis/*.yaml
+            containers: 'saunak021224.azurecr.io/python-app:$(Build.BuildId)'        
 
         # Script to verify deployment
         - script: |
@@ -65,6 +81,7 @@ stages:
             echo "Testing external service with curl..."
             curl -s http://$EXTERNAL_IP || echo "Service not responding, verify deployment."
           displayName: "Verify Kubernetes Deployment"
+          
 
 # # Stage 4: Approval Stage
 # - stage: ApprovalStage
