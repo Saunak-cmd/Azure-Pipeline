@@ -29,7 +29,7 @@ stages:
             containerRegistry: 'DockerRegistrysaunak1'
             repository: 'python-app'
             command: 'buildAndPush'
-            Dockerfile: 'app_code/Dockerfile'
+            Dockerfile: '**/Dockerfile'
             tags: '$(Build.BuildId)'
 
         - task: PublishPipelineArtifact@1
