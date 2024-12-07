@@ -35,3 +35,25 @@ Fetch the external IP of the Python app service and test connectivity using curl
 Approvals:​
 
 Include manual approval stage for sensitive actions, such as deleting deployments or services.​
+
+Artifact Creation:​
+
+Push the manifests folder (containing Kubernetes deployment and service YAML files) as an artifact in the pipeline for reuse in subsequent stages.​
+
+Update deployment and service manifest files to dynamically use namespaces (dev or prod) based on pipeline variables.​
+
+Streamline deployments by enabling reusable artifacts and environment-specific configurations.​
+
+Fine-Tuning Pipelines:​
+
+Move deployment processes to a release pipeline.​
+
+Add a 3-minute gate wait in pipelines.​
+
+Update deployment/service files to utilize namespaces as variables (dev and prod).​
+
+Release Pipeline:​
+
+Set up a release pipeline for production deployments.​
+
+Deploy to the production namespace using separate Load Balancer IPs for development and production environments.​
